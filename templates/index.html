@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Procesador de PDFs</title>
+</head>
+<body>
+    <h1>Sube tu archivo PDF</h1>
+    <form id="uploadForm">
+        <input type="file" id="fileInput" name="file" accept="application/pdf" required>
+        <button type="submit">Subir y procesar</button>
+    </form>
+    <h2>Resultado:</h2>
+    <pre id="result"></pre>
+
+    <script>
+        const form = document.getElementById('uploadForm');
+        const result = document.getElementById('result');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const fileInput = document.getElementById('fileInput');
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+
+            const response = await fetch('/upload/', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                result.textContent = JSON.stringify(data.result, null, 2);
+            } else {
+                result.textContent = "Error al procesar el archivo.";
+            }
+        });
+    </script>
+</body>
+</html>

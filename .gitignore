@@ -1,0 +1,7 @@
+.venv
+.terraform
+__pycache__
+uploads/
+.terraform.lock.hcl
+*.pub
+processed/
